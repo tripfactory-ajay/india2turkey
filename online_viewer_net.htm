@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turkey Special - Trip Factory & Nexus DMC</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #ffffff;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+        }
+        
+        /* Clean Header */
+        .header {
+            background: #ffffff;
+            padding: 20px;
+            text-align: center;
+            border-bottom: 3px solid #f0f0f0;
+        }
+        
+        .logos {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+        }
+        
+        .logo {
+            height: 80px;
+            width: auto;
+            object-fit: contain;
+            mix-blend-mode: multiply;
+        }
+        
+        /* Visual Hero */
+        .hero-visual {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+        }
+        
+        .hero-collage {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            height: 100%;
+            gap: 5px;
+        }
+        
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .hero-img:hover {
+            transform: scale(1.05);
+        }
+        
+        .hero-img.main {
+            grid-row: 1 / 3;
+        }
+        
+        .price-tag {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: pulse 2s infinite;
+            z-index: 10;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .price-tag .from {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        
+        .price-tag .amount {
+            font-size: 2.5em;
+            font-weight: 700;
+            line-height: 1;
+        }
+        
+        .price-tag .per-person {
+            font-size: 0.8em;
+            opacity: 0.9;
+        }
+        
+        /* Tour Title */
+        .tour-header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(to bottom, #ffffff, #f8f9fa);
+        }
+        
+        .tour-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2em;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        
+        .tour-header .subtitle {
+            color: #e74c3c;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+        
+        /* Itinerary Visual - 4 in a row */
+        .itinerary-section {
+            padding: 40px 20px;
+            background: #ffffff;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8em;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        
+        .cities-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .city-card {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .city-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .city-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+        
+        .city-info {
+            padding: 15px;
+            background: white;
+        }
+        
+        .city-info h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2em;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+        
+        .nights {
+            display: inline-block;
+            background: #3498db;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .city-highlights {
+            font-size: 0.8em;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        /* Tour Details */
+        .details-section {
+            background: #f8f9fa;
+            padding: 40px 20px;
+        }
+        
+        .inclusions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .inclusion-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .inclusion-icon {
+            font-size: 1.5em;
+        }
+        
+        /* Incentive Banner */
+        .incentive-banner {
+            background: linear-gradient(90deg, #00b894, #00cec9);
+            color: white;
+            text-align: center;
+            padding: 25px;
+            font-size: 1.2em;
+            font-weight: 700;
+        }
+        
+        /* Form Section */
+        .form-section {
+            padding: 50px 20px;
+            background: #2c3e50;
+            color: white;
+        }
+        
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .form-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+        
+        .form-header p {
+            opacity: 0.9;
+            font-size: 0.95em;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            font-weight: 600;
+            color: #ecf0f1;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95em;
+            font-family: 'Montserrat', sans-serif;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+        
+        input:focus, select:focus {
+            outline: none;
+            background: rgba(255,255,255,0.15);
+            border-color: #3498db;
+        }
+        
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+            cursor: pointer;
+        }
+        
+        .checkbox-item input {
+            width: auto;
+            accent-color: #3498db;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(231, 76, 60, 0.4);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #1a252f;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.85em;
+        }
+        
+        @media (max-width: 900px) {
+            .cities-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .logos { gap: 30px; }
+            .logo { height: 60px; }
+            .hero-visual { height: 300px; }
+            .price-tag { right: 10px; bottom: 10px; padding: 15px; }
+            .price-tag .amount { font-size: 1.8em; }
+            .form-row { grid-template-columns: 1fr; }
+            .checkbox-grid { grid-template-columns: 1fr; }
+            .cities-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .success-message {
+            display: none;
+            background: #27ae60;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Clean Header - No partnership text -->
+        <div class="header">
+            <div class="logos">
+                <img src="https://raw.githubusercontent.com/tripfactory-ajay/tripfactory/main/TripFactory_Logo.jpg" alt="Trip Factory" class="logo">
+                <img src="https://raw.githubusercontent.com/tripfactory-ajay/tripfactory/main/NexusDMC_Logo.jpg" alt="Nexus DMC" class="logo">
+            </div>
+        </div>
+
+        <!-- Visual Hero with Collage -->
+        <div class="hero-visual">
+            <div class="hero-collage">
+                <img src="https://kimi-web-img.moonshot.cn/img/www.travelandleisure.com/0c14631a11c3f3d32d90b59bf5b369c10e2ea713.jpg" alt="Cappadocia" class="hero-img main">
+                <img src="https://kimi-web-img.moonshot.cn/img/cdn.carwiz.rent/703f82e45c3bdef3b65ac5a1b981032b037b956a.jpg" alt="Blue Mosque" class="hero-img">
+                <img src="https://kimi-web-img.moonshot.cn/img/dynamic-media-cdn.tripadvisor.com/6fd199e145225a04c39d9ffcb4d58e6f20339ff8.jpg" alt="Pamukkale" class="hero-img">
+                <img src="https://kimi-web-img.moonshot.cn/img/www.travelandleisure.com/577b7d856dd38c99422a18a4b028c788acc4849a.jpg" alt="Balloons" class="hero-img">
+                <img src="https://kimi-web-img.moonshot.cn/img/upload.wikimedia.org/625f65634036cfaf197f42e1ed63c02629f6c2b7.jpg" alt="Thermal Pools" class="hero-img">
+            </div>
+            <div class="price-tag">
+                <div class="from">7 Days from</div>
+                <div class="amount">₹9,999</div>
+                <div class="per-person">per person*</div>
+            </div>
+        </div>
+
+        <!-- Tour Header -->
+        <div class="tour-header">
+            <h1>Magical Turkey Explorer</h1>
+            <div class="subtitle">Istanbul • Cappadocia • Pamukkale • Kusadasi</div>
+        </div>
+
+        <!-- City Itinerary - 4 in a row -->
+        <div class="itinerary-section">
+            <h2 class="section-title">Your 7-Day Journey</h2>
+            
+            <div class="cities-grid">
+                <div class="city-card">
+                    <img src="https://kimi-web-img.moonshot.cn/img/cdn.carwiz.rent/703f82e45c3bdef3b65ac5a1b981032b037b956a.jpg" alt="Istanbul">
+                    <div class="city-info">
+                        <span class="nights">3 Nights</span>
+                        <h3>Istanbul</h3>
+                        <div class="city-highlights">
+                            Hagia Sophia • Blue Mosque • Grand Bazaar • Bosphorus Cruise
+                        </div>
+                    </div>
+                </div>
+
+                <div class="city-card">
+                    <img src="https://kimi-web-img.moonshot.cn/img/www.travelandleisure.com/0c14631a11c3f3d32d90b59bf5b369c10e2ea713.jpg" alt="Cappadocia">
+                    <div class="city-info">
+                        <span class="nights">2 Nights</span>
+                        <h3>Cappadocia</h3>
+                        <div class="city-highlights">
+                            Hot Air Balloon • Goreme Valley • Underground City • Cave Hotels
+                        </div>
+                    </div>
+                </div>
+
+                <div class="city-card">
+                    <img src="https://kimi-web-img.moonshot.cn/img/dynamic-media-cdn.tripadvisor.com/6fd199e145225a04c39d9ffcb4d58e6f20339ff8.jpg" alt="Pamukkale">
+                    <div class="city-info">
+                        <span class="nights">1 Night</span>
+                        <h3>Pamukkale</h3>
+                        <div class="city-highlights">
+                            Thermal Pools • Hierapolis • Cleopatra's Pool • White Terraces
+                        </div>
+                    </div>
+                </div>
+
+                <div class="city-card">
+                    <img src="https://kimi-web-img.moonshot.cn/img/www.theknot.com/dd6e4c43f18625c653a24caa7c525b831ec15128" alt="Kusadasi">
+                    <div class="city-info">
+                        <span class="nights">1 Night</span>
+                        <h3>Kusadasi</h3>
+                        <div class="city-highlights">
+                            Ephesus • Virgin Mary House • Aegean Coast • Local Markets
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tour Details -->
+        <div class="details-section">
+            <h2 class="section-title">What's Included</h2>
+            <div class="inclusions-grid">
+                <div class="inclusion-item">
+                    <span class="inclusion-icon">✈️</span>
+                    <span>Return Flights from Major Indian Cities</span>
+                </div>
+                <div class="inclusion-item">
+                    <span class="inclusion-icon">🏨</span>
+                    <span>4-Star Hotels (3N Istanbul, 2N Cappadocia, 1N Pamukkale, 1N Kusadasi)</span>
+                </div>
+                <div class="inclusion-item">
+                    <span class="inclusion-icon">🍽️</span>
+                    <span>Daily Breakfast & 3 Dinners</span>
+                </div>
+                <div class="inclusion-item">
+                    <span class="inclusion-icon">🚌</span>
+                    <span>All Transfers & Sightseeing</span>
+                </div>
+                <div class="inclusion-item">
+                    <span class="inclusion-icon">🎫</span>
+                    <span>Entrance Fees to All Monuments</span>
+                </div>
+                <div class="inclusion-item">
+                    <span class="inclusion-icon">👨‍💼</span>
+                    <span>English Speaking Guide</span>
+                </div>
+                <div class="inclusion-item">
+                    <span class="inclusion-icon">🎈</span>
+                    <span>Optional Hot Air Balloon Ride</span>
+                </div>
+                <div class="inclusion-item">
+                    <span class="inclusion-icon">🛡️</span>
+                    <span>Travel Insurance</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Incentive -->
+        <div class="incentive-banner">
+            🎁 Book This Tour & Get ₹1,000 Additional Credit + Complete Survey for Exclusive Agent Rates 🎁
+        </div>
+
+        <!-- Agent Survey Form -->
+        <div class="form-section">
+            <div class="form-container">
+                <div class="form-header">
+                    <h2>Travel Agent Quick Survey</h2>
+                    <p>Help us serve you better & unlock special commission rates</p>
+                </div>
+
+                <form id="agentSurvey">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Agency Name *</label>
+                            <input type="text" name="agency" required placeholder="Your agency name">
+                        </div>
+                        <div class="form-group">
+                            <label>Your Name *</label>
+                            <input type="text" name="agent" required placeholder="Your name">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input type="email" name="email" required placeholder="email@agency.com">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone *</label>
+                            <input type="text" name="phone" required placeholder="+91">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Preferred Departure City *</label>
+                        <select name="departure" required>
+                            <option value="">Select City</option>
+                            <option value="delhi">Delhi</option>
+                            <option value="mumbai">Mumbai</option>
+                            <option value="bangalore">Bangalore</option>
+                            <option value="chennai">Chennai</option>
+                            <option value="hyderabad">Hyderabad</option>
+                            <option value="ahmedabad">Ahmedabad</option>
+                            <option value="kolkata">Kolkata</option>
+                            <option value="kochi">Kochi</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Passenger Types You Serve *</label>
+                        <div class="checkbox-grid">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="passengers" value="families"> Families
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="passengers" value="couples"> Couples/Honeymoon
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="passengers" value="groups"> Groups
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="passengers" value="corporate"> Corporate
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Turkey Demand Level *</label>
+                        <select name="demand" required>
+                            <option value="">Select demand</option>
+                            <option value="high">High - Regular bookings</option>
+                            <option value="growing">Growing - Increasing queries</option>
+                            <option value="occasional">Occasional - Few queries</option>
+                            <option value="new">New - Want to start selling</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Expected Monthly Volume</label>
+                        <select name="volume">
+                            <option value="">Select volume</option>
+                            <option value="1-5">1-5 pax</option>
+                            <option value="6-15">6-15 pax</option>
+                            <option value="16-30">16-30 pax</option>
+                            <option value="30+">30+ pax</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Submit & Get ₹1,000 Credit</button>
+                    
+                    <div class="success-message" id="successMsg">
+                        ✅ Thank you! Your credit has been activated. Check your email for details.
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Trip Factory & Nexus DMC Partnership | Turkey Holiday Specialists</p>
+            <p style="margin-top: 5px; font-size: 0.8em;">*Terms & conditions apply. Price subject to availability and seasonality.</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('agentSurvey').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate checkboxes
+            const passengers = document.querySelectorAll('input[name="passengers"]:checked');
+            if (passengers.length === 0) {
+                alert('Please select at least one passenger type');
+                return;
+            }
+            
+            // Show success
+            document.getElementById('successMsg').style.display = 'block';
+            this.reset();
+            
+            // Scroll to success
+            document.getElementById('successMsg').scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
